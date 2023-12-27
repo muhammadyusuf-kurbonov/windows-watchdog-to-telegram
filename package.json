@@ -2,9 +2,22 @@
   "name": "windows-watchdog-to-telegram",
   "version": "1.0.0",
   "description": "Watch file add and publish it to telegram",
-  "main": "index.ts",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
-    "chokidar": "^3.5.3"
+    "axios": "^1.6.3",
+    "bun": "^1.0.20",
+    "chokidar": "^3.5.3",
+    "input": "^1.0.1",
+    "properties-parser": "^0.6.0",
+    "telegram": "^2.19.10"
+  },
+  "packageManager": "bun",
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node src/index.js"
+  },
+  "devDependencies": {
+    "@types/properties-parser": "^0.3.3",
+    "typescript": "^5.3.3"
   }
 }
