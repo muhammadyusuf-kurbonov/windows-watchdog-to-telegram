@@ -1,0 +1,10 @@
+{
+  "name": "windows-watchdog-to-telegram",
+  "version": "1.0.0",
+  "description": "Watch file add and publish it to telegram",
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  }
+}
