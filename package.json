@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "description": "Watch file add and publish it to telegram",
   "license": "MIT",
-  "type": "module",
   "dependencies": {
     "axios": "^1.6.3",
-    "bun": "^1.0.20",
     "chokidar": "^3.5.3",
     "input": "^1.0.1",
     "properties-parser": "^0.6.0",

@@ -1,8 +1,8 @@
-import input from "input";
-import { TelegramClient } from "telegram";
-import { StoreSession, StringSession } from "telegram/sessions/index.js";
+const input = require("input");
+const { TelegramClient } = require("telegram");
+const { StoreSession } = require("telegram/sessions/index.js");
 
-export default class MyTelegramClient {
+module.exports = class MyTelegramClient {
   api_id = 29337088;
   api_hash = "40251e91de96dded6166f1891a29ffd6";
   storeSession = new StoreSession("sessions");
