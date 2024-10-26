@@ -1,7 +1,7 @@
 import chokidar from "chokidar";
 import parser from "properties-parser";
 import fs from "node:fs";
-import { MyTelegramClient } from "./telegram-sender/client";
+import { MyTelegramClient } from "./telegram-sender/client.ts";
 import path from "node:path";
 
 const CONFIG_FILE = "./watcher.properties";
