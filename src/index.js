@@ -35,7 +35,9 @@ const path = require("path");
   const client = new MyTelegramClient();
   await client.init();
 
-  const watchPatterns = ["*.zip", "*.rar"].map((pattern) =>
+  const patterns = properties['PATTERN'] || '*.zip;*.rar';
+
+  const watchPatterns = patterns.split(';').map((pattern) =>
     path.join(watchPath, pattern)
   );
   console.log(watchPatterns);

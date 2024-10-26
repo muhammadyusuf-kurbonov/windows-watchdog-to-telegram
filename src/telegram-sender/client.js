@@ -25,6 +25,7 @@ module.exports = class MyTelegramClient {
     await this.client.start({
       phoneNumber: async () => await input.text('Enter phone number'),
       phoneCode: async () => await input.text('Enter code:'),
+      password: async () => await input.text('Enter 2FA cloud password:'),
       onError: (err) => console.log(err),
       qrCode: async (qrCode) => {
           console.log('Requested QR code????', qrCode);
