@@ -1,13 +1,14 @@
-const input = require("input");
-const { TelegramClient } = require("telegram");
-const { StoreSession } = require("telegram/sessions/index.js");
+// @ts-expect-error no declarations
+import input from "input";
+import { TelegramClient } from "telegram";
+import { StoreSession } from "telegram/sessions/index.js";
 
-module.exports = class MyTelegramClient {
+export class MyTelegramClient {
   api_id = 29337088;
   api_hash = "40251e91de96dded6166f1891a29ffd6";
   storeSession = new StoreSession("sessions");
-  /** @type {TelegramClient | null} */
-  client = null;
+
+  client: TelegramClient | null = null;
 
   async init() {
     this.client = new TelegramClient(
@@ -38,7 +39,7 @@ module.exports = class MyTelegramClient {
     this.client?.session.save();
   }
 
-  async sendFile(chat_id, filePath) {
+  async sendFile(chat_id: string, filePath: string) {
     if (!this.client) throw new Error("Client is not initialized yet!");
     await this.client.sendFile(chat_id, { file: filePath });
     console.log("File is sent", filePath);
