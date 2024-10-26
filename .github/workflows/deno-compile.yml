@@ -10,11 +10,10 @@ name: Deno
 
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Pu
   workflow_dispatch:
-  
 
 permissions:
   contents: read
