@@ -41,7 +41,7 @@ jobs:
 
       - name: Compile Windows with Deno
         run: |
-          deno compile --target=x86_64-pc-windows-msvc --output watcher ./src/index.js
+          deno compile --target=x86_64-pc-windows-msvc --output watcher ./src/index.ts
 
       - name: Create GitHub Release
         id: create_release
