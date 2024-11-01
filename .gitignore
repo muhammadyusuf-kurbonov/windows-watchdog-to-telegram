@@ -1,2 +1,4 @@
 /node_modules
 /sessions
+private.key
+/build
