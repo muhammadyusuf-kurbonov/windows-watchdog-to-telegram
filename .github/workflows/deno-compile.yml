@@ -43,7 +43,7 @@ jobs:
 
       - name: Compile Windows with Deno
         run: |
-          deno compile --no-check --target=x86_64-pc-windows-msvc --output watcher.exe ./src/index.ts 
+          deno run build
 
       - name: Create GitHub Release
         id: create_release
@@ -56,12 +56,21 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Binary
+      - name: Upload Windows Binary
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./watcher.exe
+          asset_path: ./build/watcher.exe
           asset_name: watcher.exe
+          asset_content_type: application/octet-stream
+      - name: Upload Linux Binary
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/watcher
+          asset_name: watcher
           asset_content_type: application/octet-stream
