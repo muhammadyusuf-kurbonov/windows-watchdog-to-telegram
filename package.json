@@ -7,15 +7,19 @@
   "dependencies": {
     "axios": "^1.6.3",
     "chokidar": "^3.5.3",
+    "date-fns": "^4.1.0",
     "input": "^1.0.1",
+    "is-number": "^7.0.0",
     "properties-parser": "^0.6.0",
     "telegram": "^2.19.10"
   },
-  "packageManager": "bun",
+  "packageManager": "deno",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node src/index.js"
+    "start": "deno run --allow-env --allow-ffi --allow-read --allow-sys --allow-net ./src/index.ts",
+    "sign": "deno run --allow-read ./src/sign-new-key.ts"
   },
   "devDependencies": {
+    "@types/is-number": "^7.0.5",
     "@types/properties-parser": "^0.3.3",
     "typescript": "^5.3.3"
   }
