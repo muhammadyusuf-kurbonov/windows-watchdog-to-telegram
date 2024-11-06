@@ -8,7 +8,7 @@ function signText(text: string) {
   const privateKey = Deno.readFileSync("./private.key");
 
   const sign = crypto.createSign("RSA-SHA256");
-  sign.update('Muhammadyusuf Kurbonov');
+  sign.update(text);
   const signature = sign.sign(Buffer.from(privateKey), "base64");
 
   return btoa(text + '|' + signature);

@@ -23,7 +23,7 @@ export function checkExpire(licenseKey: string): boolean {
         throw new Error('Invalid license key.');
     }
 
-    if (!validateSignature(signature)) {
+    if (!validateSignature(date, signature)) {
         throw new Error('Invalid license key.');
     }
 
@@ -32,12 +32,12 @@ export function checkExpire(licenseKey: string): boolean {
     return isAfter(expireDate, new Date());
 }
 
-export function validateSignature(key: string) {
+export function validateSignature(data: string, signature: string) {
   const verifier = crypto.createVerify("RSA-SHA256");
 
   const publicKeyBuf = Buffer.from(publicKey);
-  const signatureBuf = Buffer.from(key, "base64");
-  verifier.update('Muhammadyusuf Kurbonov');
+  const signatureBuf = Buffer.from(signature, "base64");
+  verifier.update(data);
 
   const result = verifier.verify(publicKeyBuf, signatureBuf);
 
