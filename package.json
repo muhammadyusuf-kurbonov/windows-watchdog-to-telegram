@@ -5,9 +5,11 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "@inquirer/prompts": "^7.0.1",
     "axios": "^1.6.3",
     "chokidar": "^3.5.3",
     "date-fns": "^4.1.0",
+    "glob-to-regexp": "^0.4.1",
     "input": "^1.0.1",
     "is-number": "^7.0.0",
     "properties-parser": "^0.6.0",
@@ -16,10 +18,11 @@
   "packageManager": "deno",
   "scripts": {
     "start": "deno run --allow-env --allow-ffi --allow-read --allow-sys --allow-net ./src/index.ts",
-    "sign": "deno run --allow-read ./src/sign-new-key.ts",
+    "sign": "deno run --allow-read ./src/license/sign-new-key.ts",
     "build": "deno compile --no-check --target=x86_64-pc-windows-msvc --output build/watcher.exe ./src/index.ts && deno compile --no-check --output build/watcher ./src/index.ts"
   },
   "devDependencies": {
+    "@types/glob-to-regexp": "^0.4.4",
     "@types/is-number": "^7.0.5",
     "@types/properties-parser": "^0.3.3",
     "typescript": "^5.3.3"
