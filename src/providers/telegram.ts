@@ -1,5 +1,5 @@
 import { input, password } from "@inquirer/prompts";
-import bigInt from "big-integer";
+import bigInt from "npm:big-integer";
 import console from "node:console";
 import { Api, TelegramClient } from "telegram";
 import { StoreSession } from "telegram/sessions/index.js";
