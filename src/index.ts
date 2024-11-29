@@ -5,6 +5,7 @@ import { Config } from "./config/index.ts";
 import LicenseModule from "./license/license-module.ts";
 import { TelegramProvider } from "./providers/telegram.ts";
 import { WatcherModule } from "./watcher/watcher-module.ts";
+import { BackupModule } from "@/modules/backup/backup-module.ts";
 
 const config = new Config();
 config.load();
@@ -19,7 +20,7 @@ const cliData = parseCLI(Deno.args.join(" "));
 
 switch (cliData.command) {
   case "":
-  case "watch": {
+  case "publish": {
     const watcherModule = new WatcherModule(config, new TelegramProvider());
     const stopWatching = await watcherModule.startWatching();
 
@@ -32,6 +33,20 @@ switch (cliData.command) {
     });
     break;
   }
+  case "backup": {
+    const backupModule = new BackupModule(config, new TelegramProvider());
+    backupModule.scheduleBackups();
+
+    process.on("beforeExit", () => {
+      backupModule.stop();
+    });
+
+    process.on("exit", () => {
+      backupModule.stop();
+    });
+    break;
+  }
+  
   case "sync":
     console.log("Syncing...");
     break;

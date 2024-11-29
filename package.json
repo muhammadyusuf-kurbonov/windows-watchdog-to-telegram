@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@inquirer/prompts": "^7.0.1",
+    "archiver": "^7.0.1",
     "axios": "^1.6.3",
     "chokidar": "^3.5.3",
     "date-fns": "^4.1.0",
@@ -22,6 +23,7 @@
     "build": "deno compile --no-check --target=x86_64-pc-windows-msvc --output build/watcher.exe ./src/index.ts && deno compile --no-check --output build/watcher ./src/index.ts"
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.3",
     "@types/glob-to-regexp": "^0.4.4",
     "@types/is-number": "^7.0.5",
     "@types/properties-parser": "^0.3.3",

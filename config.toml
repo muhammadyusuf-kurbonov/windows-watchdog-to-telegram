@@ -1,1 +1,2 @@
-WATCH_PATTERN=[ "*.docx" ]
+WATCH_PATTERN=[ "**/*.ts" ]
+BACKUP_SCHEDULE_CRON="* * * * *"

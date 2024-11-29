@@ -63,7 +63,10 @@ export class TelegramProvider implements IProvider {
     const result = await this.client
       .sendFile(this.chatID, { file: filePath })
       .then(() => true)
-      .catch(() => false);
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
 
     return result;
   }
@@ -142,7 +145,9 @@ export class TelegramProvider implements IProvider {
   }
 
   async sendFile(chat_id: string, filePath: string) {
-    if (!this.client) throw new Error("Client is not initialized yet!");
+    if (!this.client) {
+      throw new Error("Client is not initialized yet!");
+    }
     await this.client.sendFile(chat_id, {
       file: filePath,
       forceDocument: true,
