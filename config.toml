@@ -1,0 +1,2 @@
+WATCH_PATTERN=[ "**/*.ts" ]
+BACKUP_SCHEDULE_CRON="* * * * *"

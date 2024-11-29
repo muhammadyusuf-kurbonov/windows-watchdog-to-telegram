@@ -1,66 +1,57 @@
-import chokidar from "chokidar";
+import { parseCLI } from "@namchee/parsley";
 import console from "node:console";
-import fs from "node:fs";
-import path from "node:path";
 import process from "node:process";
-import parser from "properties-parser";
-import { MyTelegramClient } from "./telegram-sender/client.ts";
-import { checkExpire } from "./validate.ts";
+import { Config } from "./config/index.ts";
+import LicenseModule from "./license/license-module.ts";
+import { TelegramProvider } from "./providers/telegram.ts";
+import { WatcherModule } from "./watcher/watcher-module.ts";
+import { BackupModule } from "@/modules/backup/backup-module.ts";
 
-const CONFIG_FILE = "./watcher.properties";
+const config = new Config();
+config.load();
 
-if (!fs.existsSync(CONFIG_FILE)) {
-  console.log("No config is available! Exiting ...");
-  process.exit(0);
+const licenseModule = new LicenseModule(config);
+if (!licenseModule.validateLicenseKey()) {
+  console.error("Invalid license key!");
+  process.exit(1);
 }
 
-const properties = parser.read(CONFIG_FILE);
+const cliData = parseCLI(Deno.args.join(" "));
 
-if (!properties["LICENSE_KEY"]) {
-  throw new Error("No license key was provided!");
+switch (cliData.command) {
+  case "":
+  case "publish": {
+    const watcherModule = new WatcherModule(config, new TelegramProvider());
+    const stopWatching = await watcherModule.startWatching();
+
+    process.on("beforeExit", () => {
+      stopWatching();
+    });
+
+    process.on("exit", () => {
+      stopWatching();
+    });
+    break;
+  }
+  case "backup": {
+    const backupModule = new BackupModule(config, new TelegramProvider());
+    backupModule.scheduleBackups();
+
+    process.on("beforeExit", () => {
+      backupModule.stop();
+    });
+
+    process.on("exit", () => {
+      backupModule.stop();
+    });
+    break;
+  }
+  
+  case "sync":
+    console.log("Syncing...");
+    break;
+  default: {
+    console.error(`Unknown command: ${cliData.command}`);
+    process.exit(1);
+  }
 }
-
-const expredLicense = checkExpire(properties["LICENSE_KEY"]);
-
-if (!expredLicense) {
-  console.log("License is expired! Exiting ...");
-  process.exit(0);
-}
-
-if (!properties["WATCH_DIR"]) {
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-  console.log("WATCH-DIR not specified");
-
-  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-  process.exit(0);
-}
-const watchPath = properties["WATCH_DIR"];
-
-if (!properties["CHAT"]) {
-  console.warn("CHAT not specified. See example. Default sending to Favorites");
-}
-const chat = properties["CHAT"] || "me";
-
-const client = new MyTelegramClient();
-await client.init();
-
-const patterns = properties["PATTERN"] || "*.zip;*.rar";
-
-const watchPatterns = patterns
-  .split(";")
-  .map((pattern) => path.join(watchPath, pattern));
-console.log(watchPatterns);
-const watcher = chokidar.watch(watchPatterns, {
-  persistent: true,
-  awaitWriteFinish: true,
-  ignoreInitial: true,
-});
-
-watcher.on("add", async (pathToFile: string) => {
-  console.log("Sending", pathToFile, "to", chat);
-  await client.sendFile(chat, pathToFile);
-});
-
-console.log("Watcher activated for", watchPath);
