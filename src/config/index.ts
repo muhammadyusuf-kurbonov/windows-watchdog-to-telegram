@@ -1,4 +1,5 @@
 import { parse } from "@std/toml";
+import { existsSync } from "@std/fs";
 import console from "node:console";
 
 export class Config {
@@ -7,6 +8,11 @@ export class Config {
   public load(configFilePath = "./config.toml") {
     try {
       const decoder = new TextDecoder("utf-8");
+
+      if (!existsSync(configFilePath)) {
+        Deno.createSync(configFilePath);
+      }
+
       const configFile = Deno.readFileSync(configFilePath);
       const configContent = decoder.decode(configFile);
 

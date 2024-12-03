@@ -1,5 +1,6 @@
 import { LICENSE_KEY, type Config } from "../config/index.ts";
 import { checkExpire } from "./validate.ts";
+import { existsSync } from '@std/fs';
 
 const LICENSE_KEY_FILE = "./license-key.txt";
 
@@ -8,6 +9,11 @@ export default class LicenseModule {
 
   validateLicenseKey(): boolean {
     let licenseKey = "";
+
+    if (!existsSync(LICENSE_KEY_FILE)) {
+      Deno.createSync(LICENSE_KEY_FILE);
+    }
+
     try {
       licenseKey = Deno.readTextFileSync(LICENSE_KEY_FILE).trim();
     } catch (e) {
