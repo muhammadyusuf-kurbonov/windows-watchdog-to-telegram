@@ -20,7 +20,7 @@
   "scripts": {
     "start": "deno run --allow-env --allow-ffi --allow-read --allow-sys --allow-net ./src/index.ts",
     "sign": "deno run --allow-read ./src/license/sign-new-key.ts",
-    "build": "deno compile --no-check --target=x86_64-pc-windows-msvc --output build/watcher.exe ./src/index.ts && deno compile --no-check --output build/watcher ./src/index.ts"
+    "build": "deno compile -A --no-prompt --no-check --target=x86_64-pc-windows-msvc --output build/watcher.exe ./src/index.ts && deno compile -A --no-prompt --no-check --output build/watcher ./src/index.ts"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.3",
