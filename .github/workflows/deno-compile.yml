@@ -43,7 +43,7 @@ jobs:
 
       - name: Compile Windows with Deno
         run: |
-          deno run build
+          deno run build -A --no-prompt
 
       - name: Create GitHub Release
         id: create_release
