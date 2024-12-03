@@ -1,2 +1,4 @@
-WATCH_PATTERN=[ "**/*.ts" ]
-BACKUP_SCHEDULE_CRON="* * * * *"
+MODE = "backup"
+WATCH_DIR = "/home/muhammadyusuf-kurbonov/Projects/windows-watchdog-to-telegram"
+WATCH_PATTERN = "**/*.txt"
+BACKUP_SCHEDULE_CRON = "* * * * *"

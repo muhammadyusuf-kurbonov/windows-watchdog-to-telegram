@@ -20,15 +20,9 @@ export class WatcherModule {
       watchDir = Deno.cwd();
     }
 
-    const watchPattern = (this.config.get(WATCH_PATTERN) as
-      | string[]
-      | undefined) || ["*"];
+    const watchPattern = this.config.get<string>(WATCH_PATTERN) || "**/*";
 
-    const watchPatterns = watchPattern.map((pattern) =>
-      globToRegexp("**/" + pattern, { globstar: true, flags: "i" })
-    );
-
-    console.log(watchPatterns);
+    const watchPatterns = globToRegexp(watchPattern, { globstar: true, flags: "i" });
 
     await this.provider.initialize(this.config);
 
@@ -41,11 +35,9 @@ export class WatcherModule {
     };
   }
 
-  private async listenWatcher(watcher: Deno.FsWatcher, patterns: RegExp[]) {
+  private async listenWatcher(watcher: Deno.FsWatcher, pattern: RegExp) {
     for await (const event of watcher) {
-      const filtered = patterns.some((pattern) =>
-        this.matchesPattern(event, pattern)
-      );
+      const filtered = this.matchesPattern(event, pattern);
 
       if (event.kind === "access") {
         continue;

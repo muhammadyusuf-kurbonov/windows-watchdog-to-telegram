@@ -69,9 +69,7 @@ export class BackupModule {
       watchDir = Deno.cwd();
     }
 
-    const watchPattern = (config.get(WATCH_PATTERN) as
-      | string[]
-      | undefined) || ["*"];
+    const watchPattern = config.get<string>(WATCH_PATTERN) || "**/*";
 
     const outputFilePath = Deno.makeTempFileSync({
       prefix: "backup-" + format(new Date(), "yyyy-MM-dd--HH-mm"),
@@ -116,11 +114,8 @@ export class BackupModule {
     // pipe archive data to the file
     archive.pipe(output);
 
-    watchPattern.forEach((pattern) => {
-      // append files from a glob pattern
-      archive.glob(pattern, { cwd: watchDir });
-    });
-
+    archive.glob(watchPattern, { cwd: watchDir });
+    
     archive.finalize();
     await promise;
 
