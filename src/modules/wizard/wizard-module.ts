@@ -5,10 +5,11 @@ import {
   WATCH_PATTERN,
   type Config,
 } from "@/config/index.ts";
-import { input, select } from "@inquirer/prompts";
+import { confirm, input, select } from "@inquirer/prompts";
 import { TelegramProvider } from "@/providers/telegram.ts";
 import console from "node:console";
 import fileSelector from "inquirer-file-selector";
+import { installService, uninstallService } from "@cross/service";
 
 export class WizardModule {
   constructor(private config: Config) {}
@@ -72,6 +73,24 @@ export class WizardModule {
       await telegramProvider.initialize(this.config);
     } else {
       console.log("Unsupported provider selected.");
+    }
+    
+    const installAsService = await confirm({
+      message: "Select provider:",
+      default: true,
+    });
+
+    if (installAsService) {
+     await installService({
+      cmd: Deno.execPath(),
+      name: 'Farline Backup tool',
+      system: false,
+     }, false);
+    } else {
+      await uninstallService({
+        name: "Farline Backup tool",
+        system: false,
+      });
     }
   }
 }

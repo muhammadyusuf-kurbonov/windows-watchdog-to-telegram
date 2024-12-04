@@ -4,6 +4,7 @@
   },
   "imports": {
     "@/": "./src/",
+    "@cross/service": "jsr:@cross/service@^1.0.7",
     "@hexagon/croner": "jsr:@hexagon/croner@^9.0.0",
     "@namchee/parsley": "jsr:@namchee/parsley@^1.0.1",
     "@std/assert": "jsr:@std/assert@1",

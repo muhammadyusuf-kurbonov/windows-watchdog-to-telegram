@@ -7,6 +7,7 @@ import { TelegramProvider } from "./providers/telegram.ts";
 import { WatcherModule } from "./watcher/watcher-module.ts";
 import { BackupModule } from "@/modules/backup/backup-module.ts";
 import { WizardModule } from "@/modules/wizard/wizard-module.ts";
+import { SystrayServiceModule } from "@/modules/systray/systray-module.ts";
 
 const config = new Config();
 await config.load();
@@ -22,6 +23,9 @@ const cliData = parseCLI(Deno.args.join(" "));
 switch (cliData.command || config.get(MODE)) {
   case "":
   case "publish": {
+    const trayService = new SystrayServiceModule();
+    trayService.start();
+
     const watcherModule = new WatcherModule(config, new TelegramProvider());
     const stopWatching = await watcherModule.startWatching();
 
@@ -35,6 +39,9 @@ switch (cliData.command || config.get(MODE)) {
     break;
   }
   case "backup": {
+    const trayService = new SystrayServiceModule();
+    trayService.start();
+
     const backupModule = new BackupModule(config, new TelegramProvider());
     backupModule.scheduleBackups();
 
@@ -48,7 +55,7 @@ switch (cliData.command || config.get(MODE)) {
     break;
   }
   case "config":
-    await (new WizardModule(config).startWizard());
+    await new WizardModule(config).startWizard();
     break;
   case "sync":
     console.log("Syncing...");
